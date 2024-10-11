@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1 class="text-3xl">Testing</h1>
+        <img :src="props.audio.thumbnailUrl" :alt="audio.thumbnailAlt">
         <p>{{ transformSecondsToTimeFormat(currentTime) }}</p>
         <input v-model="currentTime" id="playerTime" type="range" min="0" :max="max" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" @input="changedInput()">
         <p>{{ transformSecondsToTimeFormat(max) }}</p>
@@ -18,7 +19,16 @@
 
 <script setup lang="ts">
     import { computed, onMounted, ref, getCurrentInstance, watch } from 'vue';
-    const music = new Audio(new URL('@/assets/songs/petal-skies-245374.mp3', import.meta.url).href);
+    import { type Audio } from '../interfaces';
+
+    interface Props {
+        audio: Audio
+    }
+
+    const props = defineProps<Props>();
+
+    const music = new Audio(props.audio.url);
+
     const range = ref(0);
     const max = ref(0);
 
@@ -31,7 +41,6 @@
 
     onMounted(async() => {
         await music.load();
-        
     })
 
     music.addEventListener('timeupdate', function() {
@@ -59,7 +68,7 @@
         if(currentTime.value !== music.currentTime)
             music.currentTime = currentTime.value
     }
-    
+
 </script>
 
 <style modules>

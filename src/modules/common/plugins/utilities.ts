@@ -9,15 +9,6 @@ export default {
             const minutes:number = Math.floor(secondsWithoutDecimals/60);
             const secondsTimer:number = secondsWithoutDecimals % 60;
 
-            console.dir({
-                seconds,
-                secondss: Math.floor(seconds)                
-                ,secondsWithoutDecimals
-                ,hours
-                ,minutes
-                ,secondsTimer
-            })
-
             let stringResult:string = "";
             stringResult = hours !== 0 ? `${hours}` : "";
             stringResult += minutes < 10 && hours > 0 ? `0${minutes}:` : `${minutes}:`;

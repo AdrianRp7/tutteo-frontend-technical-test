@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1>Player</h1>
+        <MusicPlayer></MusicPlayer>
     </div>
 </template>
 
 <script setup lang="ts">
-
+    import MusicPlayer from '../components/MusicPlayer.vue';
 </script>
 
 <style lang="scss" scoped>

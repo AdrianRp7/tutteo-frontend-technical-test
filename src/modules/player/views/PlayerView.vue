@@ -1,6 +1,7 @@
 <template>
     <div>
         <MusicPlayer :audio></MusicPlayer>
+        <img :src="songsDb[0].thumbnailUrl">
     </div>
 </template>
 
@@ -10,11 +11,16 @@
     import imgThumbnail from "@/assets/thumbnails/bird.jpg";
     import song from "@/assets/songs/petal-skies-245374.mp3";
 
+    import {songsDb} from "@/modules/searcher/db/dataSongs"
+    
+    console.log(songsDb)
+    console.log(song)
+
     const audio: Audio = {
-        url: song,
+        url: songsDb[0].url,
         title: "Petal Skies",
         artist: "Anonymous",
-        thumbnailUrl: imgThumbnail,
+        thumbnailUrl: songsDb[0].thumbnailUrl,
         thumbnailAlt: "testing",
         type: "Relax",
     }

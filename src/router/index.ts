@@ -13,7 +13,12 @@ const router = createRouter({
     {
       path: '/player-view',
       name: 'player',
-      component: PlayerView
+      component: PlayerView,
+      props: router => {
+        console.log(typeof router.query.audio)
+        if(typeof router.query.audio === 'string')
+          return JSON.parse(router.query.audio)
+      }
     },
   ]
 })

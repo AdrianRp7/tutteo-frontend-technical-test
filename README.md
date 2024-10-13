@@ -3,9 +3,11 @@
 ## Project documentation
 
 1. **Overview**
+
 This application allows users to search for songs and play them directly in a built-in player. It follows the Screaming Architecture principles to ensure a clean separation of concerns and a clear reflection of the business domain.
 
 2. **Architecture**
+
 The application implements Screaming Architecture by organizing the code around domain concerns rather than technical aspects. The focus is on making the domain of the application (searching and playing songs) explicit through the structure, keeping the application maintainable and scalable.
 
 3. **Project Structure**
@@ -23,13 +25,14 @@ modules/
 ```
 
 4. **Modules**
+
 a. Common module
 This module contains shared components, utilities, interfaces and the index view. The interface Audio contains the data must have a song.
 
 b. Searcher module
 This module contains the component of search(SongSearcher.vue) and the fake db (dataSongs.ts) with the songs. The searcher only search per title.
 
-c.Player module
+c. Player module
 This module handles the audio playback functionality. This includes:
 
 * Playing, pausing, backward, forward and stopping songs.
@@ -44,6 +47,7 @@ The module is divided into three parts: components, stores, and views.
 * Views: The view contains the component and a link to go back. It also receives the selected song as a parameter.
 
 5. **Technologies**
+
 Frameworks: Vue.js
 CSS: Tailwind CSS for styling, scss, and css modules (for the components)
 State Management: Pinia

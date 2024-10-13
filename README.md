@@ -28,7 +28,3 @@ npm run test:unit
 ```sh
 npm run lint
 ```
-
-font awesome icons
-npm i --save @fortawesome/fontawesome-svg-core
-npm i --save @fortawesome/vue-fontawesome@latest-3

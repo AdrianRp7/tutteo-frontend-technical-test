@@ -54,7 +54,7 @@ export const songsDb: Audio[] = [
         type: "Epic",
     },
     {
-        url: new URL(`@/assets/songs/dramatic-epic-cinema.mp3`, import.meta.url).href,
+        url: new URL(`@/assets/songs/dramatic-epic-cinema-150027.mp3`, import.meta.url).href,
         title: "Dramatic epic cinema",
         artist: "Makesoundmusic",
         thumbnailUrl: new URL(`@/assets/thumbnails/bird.jpg`, import.meta.url).href,
@@ -62,7 +62,7 @@ export const songsDb: Audio[] = [
         type: "Dramatic",
     },
     {
-        url: new URL(`@/assets/songs/no-copyright-music`, import.meta.url).href,
+        url: new URL(`@/assets/songs/no-copyright-music-181373.mp3`, import.meta.url).href,
         title: "Music no copy",
         artist: "DesiFreeMusic",
         thumbnailUrl: new URL(`@/assets/thumbnails/bird.jpg`, import.meta.url).href,

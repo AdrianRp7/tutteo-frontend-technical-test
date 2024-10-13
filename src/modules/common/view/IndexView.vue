@@ -36,10 +36,10 @@
 
     .card {
         width: 100%;
+        transition: transform 0.5s ease, opacity 0.5s ease;
         @media (width >= 768px) {
             width: calc(25% - 1.25rem);
         }
-        transition: transform 0.5s ease, opacity 0.5s ease;
     }
 
     .disapear-card-enter-active,

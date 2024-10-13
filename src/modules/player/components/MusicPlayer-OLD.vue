@@ -3,23 +3,23 @@
         <h1>{{audio.title}}</h1>
         <h2>{{audio.artist}}</h2>
         <img :src="props.audio.thumbnailUrl" :alt="audio.thumbnailAlt">
-        <div :class="$style['slider-container']">
-            <p>{{ transformSecondsToTimeFormat(storeMusic.currentTime) }}</p>
-            <input :class="$style['slider-timeline']" v-model="storeMusic.currentTime" type="range" @input="changedInput()">
-            <p>{{ transformSecondsToTimeFormat(storeMusic.max)}}</p>
+        <div class="slider-container">
+            <p>{{ transformSecondsToTimeFormat(currentTime) }}</p>
+            <input :class="$style['slider-timeline']" v-model="currentTime" type="range" @input="changedInput()">
+            <p>{{ transformSecondsToTimeFormat(max)}}</p>
         </div>
         <div class="container-actions">
-            <ComponentButton :class="$style.button" class="mr-1" @click="storeMusic.functionPlay" v-if="storeMusic.music?.paused">
+            <ComponentButton :class="$style.button" class="mr-1" @click="functionPlay" v-if="music.paused">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'play']"></font-awesome-icon>
                 </template>
             </ComponentButton>
-            <ComponentButton :class="$style.button" class="mr-1" @click="storeMusic.functionPause" v-else>
+            <ComponentButton :class="$style.button" class="mr-1" @click="functionPause" v-else>
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'pause']" ></font-awesome-icon>
                 </template>
             </ComponentButton>
-            <ComponentButton :class="$style.button" @click="storeMusic.functionStop">
+            <ComponentButton :class="$style.button" @click="functionStop">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'stop']"></font-awesome-icon>
                 </template>
@@ -32,7 +32,6 @@
     import { computed, onMounted, ref, getCurrentInstance, watch, onBeforeUnmount } from 'vue';
     import { type Audio } from '../interfaces';
     import ComponentButton from '@/modules/common/components/ComponentButton.vue';
-    import { useSongStore } from '../stores/musicStore';
 
 
     interface Props {
@@ -41,7 +40,12 @@
 
     const props = defineProps<Props>();
 
-    const storeMusic = useSongStore();
+    const music = new Audio(props.audio.url);
+
+    const range = ref(0);
+    const max = ref(0);
+
+    const currentTime = ref(0);
 
     const instance = getCurrentInstance();
     const transformSecondsToTimeFormat = (seconds: number) => {
@@ -49,16 +53,42 @@
     };
 
     onMounted(async() => {
-        storeMusic.loadSong(props.audio.url)
+        await music.load();
+        music.addEventListener('timeupdate', function() {
+            currentTime.value = music.currentTime;
+        })
+    
+        // Escuchar cuando los metadatos están disponibles
+        music.addEventListener('loadedmetadata', function() {
+            max.value = music.duration;
+        });
     })
 
     onBeforeUnmount(async() => {
-        storeMusic.functionStop();
+        music.pause();
     })
 
+    const paused = computed(() => music?.paused);
+
+
+    function functionPlay() {
+        music.play();
+        
+    }
+    function functionStop() {
+        music.pause();
+        music.currentTime = 0;
+    }
+    function functionPause() {
+        music.pause();
+        //This hacks safari browsers, when you click to pause in safari if you only click pause the sistem has a bug and you can't pause again.
+        //With this the variable music paused is reset again to paused = false
+        music.currentTime = parseFloat(music.currentTime.toString());
+    }
 
     function changedInput() {
-        storeMusic.changedCurrentTime()
+        if(currentTime.value !== music.currentTime)
+            music.currentTime = currentTime.value
     }
 
 </script>
@@ -73,12 +103,11 @@
 
         img {
             margin: 0 auto;
-            width: 200px;
-            height: 200px;
+            width: 400px;
+            height: 400px;
             aspect-ratio: 1/1;
             margin-top: 15px;
             margin-bottom: 15px;
-            border-radius: 20px;
         }
 
         h1, h2 {
@@ -100,19 +129,6 @@
             @media (width >= 768px) {
                 font-size: 20px;
             } 
-        }
-    }
-
-    .slider-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 10px;
-        p:first-of-type {
-            margin-right: 10px;
-        }
-
-        p:last-of-type {
-            margin-left: 10px;
         }
     }
     

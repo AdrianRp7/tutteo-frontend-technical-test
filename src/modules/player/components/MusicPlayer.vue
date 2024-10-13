@@ -9,12 +9,17 @@
             <p>{{ transformSecondsToTimeFormat(storeMusic.max)}}</p>
         </div>
         <div :class="$style['container-actions']">
-            <ComponentButton :class="$style.button" class="mr-1" @click="storeMusic.functionPlay" v-if="storeMusic.music?.paused">
+            <ComponentButton :class="[$style.button, storeMusic.music && storeMusic.music.playbackRate <= 1 ? $style['button-opacity'] : '']" @click="storeMusic.decreasePlayRate">
+                <template #default>
+                    <font-awesome-icon :icon="['fas', 'backward']" />
+                </template>
+            </ComponentButton>
+            <ComponentButton :class="$style.button" @click="storeMusic.functionPlay" v-if="storeMusic.music?.paused">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'play']"></font-awesome-icon>
                 </template>
             </ComponentButton>
-            <ComponentButton :class="$style.button" class="mr-1" @click="storeMusic.functionPause" v-else>
+            <ComponentButton :class="$style.button" @click="storeMusic.functionPause" v-else>
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'pause']" ></font-awesome-icon>
                 </template>
@@ -24,7 +29,11 @@
                     <font-awesome-icon :icon="['fas', 'stop']"></font-awesome-icon>
                 </template>
             </ComponentButton>
-           
+            <ComponentButton :class="[$style.button, storeMusic.music && storeMusic.music.playbackRate > 3 ? $style['button-opacity'] : '']"  @click="storeMusic.incrementPlayRate">
+                <template #default>
+                    <font-awesome-icon :icon="['fas', 'forward']" />
+                </template>
+            </ComponentButton>
         </div>
     </div>
 </template>
@@ -64,7 +73,7 @@
         if(slider.value !== null) {
             const percentage = (storeMusic.currentTime * 100) / storeMusic.max;
             //We add +1 percent to avoid sometimes to show the part of the slider before the button without color
-            slider.value.style.background = `linear-gradient(to right, #0094C6 0%, #0094C6 ${percentage+0.2}%, white ${percentage}%, white 100%)`;
+            slider.value.style.background = `linear-gradient(to right, #0094C6 0%, #0094C6 ${percentage + 0.4 > 100 ? percentage + 0.4 : percentage}%, white ${percentage}%, white 100%)`;
         }
     };
 
@@ -126,6 +135,10 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 10px;
+
+        p {
+            width: 40px;
+        }
         
         p:first-of-type {
             margin-right: 10px;
@@ -180,10 +193,7 @@
         flex-direction: row;
         justify-content: center;
         text-align: center;
-        
-        & > button:first-child {
-            margin-right: 5px;
-        }
+        gap: 10px;
     }
 
     .button {
@@ -193,5 +203,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .button-opacity {
+        opacity: 0.8;
+        background-color: white!important;
+        cursor:not-allowed;
     }
 </style>

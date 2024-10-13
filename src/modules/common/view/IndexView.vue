@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto">
+    <div class="container mx-auto p-3">
         <SongSearcher class="text-center mt-4" @search="songsFilter = $event"></SongSearcher>
         <div class="gap-5 mt-4 flex flex-wrap" v-if="songsFilter.length !==0">
             <TransitionGroup name="disapear-card"> 
@@ -14,7 +14,7 @@
             </TransitionGroup>
         </div>
         <p class="text-lg text-center" v-else>
-            We don't find any music with that filters
+            We don't find any music with that filter
         </p>
     </div>
 </template>

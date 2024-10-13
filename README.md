@@ -32,7 +32,7 @@ This module contains the component of search(SongSearcher.vue) and the fake db (
 c.Player module
 This module handles the audio playback functionality. This includes:
 
-* Playing, pausing, and stopping songs.
+* Playing, pausing, backward, forward and stopping songs.
 * Displaying the song's current progress, data of the song and controls.
 
 The module is divided into three parts: components, stores, and views.

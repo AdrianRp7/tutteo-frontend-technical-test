@@ -59,5 +59,30 @@ export const useSongStore = defineStore("Song", () => {
             music.value.currentTime = currentTime.value
     }
 
-    return {music, max,paused,currentTime, loadSong, functionPlay, functionStop, functionPause, changedCurrentTime}
+    function incrementPlayRate() {
+        if(music.value && music.value.playbackRate <= 3) {
+            music.value.playbackRate += 1;
+        }
+    }
+
+    function decreasePlayRate() {
+        if(music.value?.playbackRate && music.value?.playbackRate >= 2)
+            music.value.playbackRate -= 1;
+    }
+
+    return {
+        //Variables
+        music,
+        max,
+        paused,
+        currentTime,
+        //Actions
+        loadSong, 
+        functionPlay, 
+        functionStop, 
+        functionPause, 
+        changedCurrentTime,
+        incrementPlayRate,
+        decreasePlayRate
+    }
 })

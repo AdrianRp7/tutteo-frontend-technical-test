@@ -10,11 +10,12 @@ import utilities from './modules/common/plugins/utilities'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faPlay } from '@fortawesome/free-solid-svg-icons'
+import { faForward, faPlay } from '@fortawesome/free-solid-svg-icons'
 import { faStop } from '@fortawesome/free-solid-svg-icons'
 import { faPause } from '@fortawesome/free-solid-svg-icons'
 import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
-library.add(faPlay, faStop, faPause, faChevronCircleLeft);
+import { faBackward } from '@fortawesome/free-solid-svg-icons/faBackward'
+library.add(faPlay, faStop, faPause, faChevronCircleLeft, faBackward, faForward);
 
 
 const app = createApp(App)

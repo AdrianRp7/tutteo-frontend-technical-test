@@ -9,7 +9,6 @@
             <p>{{ transformSecondsToTimeFormat(max)}}</p>
         </div>
         <div class="container-actions">
-            {{ music.paused }}
             <ComponentButton class="mr-1" @click="functionPlay" v-if="music.paused">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'play']"></font-awesome-icon>

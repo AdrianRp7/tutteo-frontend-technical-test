@@ -1,4 +1,4 @@
-import {type Audio } from "@/modules/player/interfaces";
+import {type Audio } from "@/modules/common/interfaces";
 // import bird from "@/assets/thumbnails/bird.jpg";
 // import adventure from "@/assets/songs/adventure-intro-210375.mp3";
 // import cinematic from "@/assets/songs/cinematic-background-inspirational-150013.mp3";

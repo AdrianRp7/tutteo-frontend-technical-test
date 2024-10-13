@@ -7,7 +7,7 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { songsDb } from '@/modules/searcher/db/dataSongs';
-    import type { Audio } from '@/modules/player/interfaces';
+    import type { Audio } from '@/modules/common/interfaces';
 
     const value = ref("");
 

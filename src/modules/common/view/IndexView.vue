@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-    import type { Audio } from '@/modules/player/interfaces';
+    import type { Audio } from '@/modules/common/interfaces';
     import SongSearcher from '@/modules/searcher/components/SongSearcher.vue';
     import CardSong from '../components/CardSong.vue';
     import { songsDb } from '@/modules/searcher/db/dataSongs';

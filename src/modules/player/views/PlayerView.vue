@@ -13,7 +13,7 @@
 <script setup lang="ts">
     // import MusicPlayer from '../components/MusicPlayer.vue';
     import MusicPlayer from '../components/MusicPlayer.vue';
-    import {type Audio} from "../interfaces";
+    import {type Audio} from "../../common/interfaces";
     
 
     const audio = defineProps<Audio>();

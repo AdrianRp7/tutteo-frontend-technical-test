@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
     import { computed, onMounted, ref, getCurrentInstance, watch, onBeforeUnmount } from 'vue';
-    import { type Audio } from '../interfaces';
+    import { type Audio } from '../../common/interfaces';
     import ComponentButton from '@/modules/common/components/ComponentButton.vue';
 
 

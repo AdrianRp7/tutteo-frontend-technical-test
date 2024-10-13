@@ -10,12 +10,13 @@
 
 <style module>
     .button {
-        background-color: #5386E4;
+        background-color: white;
         padding: 0.3rem 0.5rem;
+        color: black;
     }
 
     .button:hover,
     .button:active {
-        background-color: #5069A4;
+        background-color: #DAF5FF;
     }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div :class="$style.container">
-        <h1 class="text-3xl">{{audio.title}}</h1>
-        <h2 class="text-3xl">{{audio.artist}}</h2>
+        <h1>{{audio.title}}</h1>
+        <h2>{{audio.artist}}</h2>
         <img :src="props.audio.thumbnailUrl" :alt="audio.thumbnailAlt">
         <div class="slider-container">
             <p>{{ transformSecondsToTimeFormat(currentTime) }}</p>
@@ -9,17 +9,17 @@
             <p>{{ transformSecondsToTimeFormat(max)}}</p>
         </div>
         <div class="container-actions">
-            <ComponentButton class="mr-1" @click="functionPlay" v-if="music.paused">
+            <ComponentButton :class="$style.button" class="mr-1" @click="functionPlay" v-if="music.paused">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'play']"></font-awesome-icon>
                 </template>
             </ComponentButton>
-            <ComponentButton class="mr-1" @click="functionPause" v-else>
+            <ComponentButton :class="$style.button" class="mr-1" @click="functionPause" v-else>
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'pause']" ></font-awesome-icon>
                 </template>
             </ComponentButton>
-            <ComponentButton class="" @click="functionStop">
+            <ComponentButton :class="$style.button" @click="functionStop">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'stop']"></font-awesome-icon>
                 </template>
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, onMounted, ref, getCurrentInstance, watch } from 'vue';
+    import { computed, onMounted, ref, getCurrentInstance, watch, onBeforeUnmount } from 'vue';
     import { type Audio } from '../interfaces';
     import ComponentButton from '@/modules/common/components/ComponentButton.vue';
 
@@ -54,18 +54,22 @@
 
     onMounted(async() => {
         await music.load();
+        music.addEventListener('timeupdate', function() {
+            currentTime.value = music.currentTime;
+        })
+    
+        // Escuchar cuando los metadatos están disponibles
+        music.addEventListener('loadedmetadata', function() {
+            max.value = music.duration;
+        });
+    })
+
+    onBeforeUnmount(async() => {
+        music.pause();
     })
 
     const paused = computed(() => music?.paused);
 
-    music.addEventListener('timeupdate', function() {
-        currentTime.value = music.currentTime;
-    })
-
-    // Escuchar cuando los metadatos están disponibles
-    music.addEventListener('loadedmetadata', function() {
-        max.value = music.duration;
-    });
 
     function functionPlay() {
         music.play();
@@ -105,6 +109,27 @@
             margin-top: 15px;
             margin-bottom: 15px;
         }
+
+        h1, h2 {
+            word-break: all;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-top: 5px;
+            font-weight: 700;
+            @media (width >= 768px) {
+                font-size: 25px;
+            }
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 400;
+            @media (width >= 768px) {
+                font-size: 20px;
+            } 
+        }
     }
     
     .title {
@@ -129,5 +154,11 @@
         & > button:first-child {
             margin-right: 20px;
         }
+    }
+
+    .button {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
     }
 </style>

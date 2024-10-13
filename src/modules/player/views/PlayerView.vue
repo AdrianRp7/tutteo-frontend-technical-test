@@ -1,5 +1,11 @@
 <template>
     <div>
+        <div class="ml-4 mb-4">
+            <RouterLink :to="{name: 'home'}">
+                <font-awesome-icon :icon="['fas', 'chevron-circle-left']" />
+                Home
+            </RouterLink>
+        </div>
         <MusicPlayer :audio></MusicPlayer>
     </div>
 </template>
@@ -12,7 +18,3 @@
     const audio = defineProps<Audio>();
     
 </script>
-
-<style lang="scss" module>
-
-</style>

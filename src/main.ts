@@ -13,7 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { faStop } from '@fortawesome/free-solid-svg-icons'
 import { faPause } from '@fortawesome/free-solid-svg-icons'
-library.add(faPlay, faStop, faPause);
+import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons'
+library.add(faPlay, faStop, faPause, faChevronCircleLeft);
 
 
 const app = createApp(App)

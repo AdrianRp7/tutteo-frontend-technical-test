@@ -5,7 +5,7 @@
         <img :src="props.audio.thumbnailUrl" :alt="audio.thumbnailAlt">
         <div class="slider-container">
             <p>{{ transformSecondsToTimeFormat(currentTime) }}</p>
-            <input :class="$style['slider-timeline']" v-model="currentTime" type="range" @input="changedInput()">
+            <input :class="$style['slider-timeline']" :max="max" v-model="currentTime" type="range" @input="changedInput()">
             <p>{{ transformSecondsToTimeFormat(max)}}</p>
         </div>
         <div class="container-actions">

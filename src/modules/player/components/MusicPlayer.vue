@@ -5,10 +5,10 @@
         <img :src="props.audio.thumbnailUrl" :alt="audio.thumbnailAlt">
         <div :class="$style['slider-container']">
             <p>{{ transformSecondsToTimeFormat(storeMusic.currentTime) }}</p>
-            <input :class="$style['slider-timeline']" v-model="storeMusic.currentTime" type="range" @input="changedInput()">
+            <input ref="slider" :max="storeMusic.max" :class="$style['slider-timeline']" v-model="storeMusic.currentTime" type="range" @input="changedInput()">
             <p>{{ transformSecondsToTimeFormat(storeMusic.max)}}</p>
         </div>
-        <div class="container-actions">
+        <div :class="$style['container-actions']">
             <ComponentButton :class="$style.button" class="mr-1" @click="storeMusic.functionPlay" v-if="storeMusic.music?.paused">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'play']"></font-awesome-icon>
@@ -24,12 +24,13 @@
                     <font-awesome-icon :icon="['fas', 'stop']"></font-awesome-icon>
                 </template>
             </ComponentButton>
+           
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { onMounted, getCurrentInstance, onBeforeUnmount } from 'vue';
+    import { ref, onMounted, getCurrentInstance, onBeforeUnmount, watch } from 'vue';
     import { type Audio } from '../../common/interfaces';
     import ComponentButton from '@/modules/common/components/ComponentButton.vue';
     import { useSongStore } from '../stores/musicStore';
@@ -40,6 +41,8 @@
     }
 
     const props = defineProps<Props>();
+
+    const slider = ref<HTMLInputElement | null>(null)
 
     const storeMusic = useSongStore();
 
@@ -56,16 +59,31 @@
         storeMusic.functionStop();
     })
 
+    //Fix: This resolves the issue with Firefox and Chrome where the slider's background wasn't updating. Previously, only the thumb moved along the timeline, but the background remained unchanged.
+    function updateSliderBackground() {
+        if(slider.value !== null) {
+            const percentage = (storeMusic.currentTime * 100) / storeMusic.max;
+            //We add +1 percent to avoid sometimes to show the part of the slider before the button without color
+            slider.value.style.background = `linear-gradient(to right, #0094C6 0%, #0094C6 ${percentage+0.2}%, white ${percentage}%, white 100%)`;
+        }
+    };
+
 
     function changedInput() {
-        storeMusic.changedCurrentTime()
+        storeMusic.changedCurrentTime();
     }
+
+    watch(() => storeMusic.currentTime, () => {
+        updateSliderBackground();
+    })
 
 </script>
 
 <style lang="scss" module>
 
     .container {
+        padding-left: 10px;
+        padding-right: 10px;
         width: 100%;
         max-width: 1024px;
         margin: 0 auto;
@@ -106,13 +124,43 @@
     .slider-container {
         display: flex;
         justify-content: center;
+        align-items: center;
         margin-bottom: 10px;
+        
         p:first-of-type {
             margin-right: 10px;
         }
 
         p:last-of-type {
             margin-left: 10px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none; 
+            width: 250px;
+            height: 8px; 
+            background: white; 
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            appearance: none;
+            width: 20px; 
+            height: 20px; 
+            background: #0094C6; 
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px; 
+            height: 20px; 
+            background: #0094C6; 
+            border: none; 
+            border-radius: 50%; 
+            cursor: pointer; 
         }
     }
     
@@ -126,17 +174,15 @@
         font-size: 18px;
     }
 
-    :deep(.slider-timeline) {
-        max-width: 600px;
-        width: 600px;
-    }
 
     .container-actions {
         display: flex;
         flex-direction: row;
+        justify-content: center;
+        text-align: center;
         
         & > button:first-child {
-            margin-right: 20px;
+            margin-right: 5px;
         }
     }
 
@@ -144,5 +190,8 @@
         width: 30px;
         height: 30px;
         border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>

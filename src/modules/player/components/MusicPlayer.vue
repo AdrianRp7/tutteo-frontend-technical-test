@@ -9,6 +9,7 @@
             <p>{{ transformSecondsToTimeFormat(max)}}</p>
         </div>
         <div class="container-actions">
+            {{ music.paused }}
             <ComponentButton class="mr-1" @click="functionPlay" v-if="music.paused">
                 <template #default>
                     <font-awesome-icon :icon="['fas', 'play']"></font-awesome-icon>
@@ -77,6 +78,9 @@
     }
     function functionPause() {
         music.pause();
+        //This hacks safari browsers, when you click to pause in safari if you only click pause the sistem has a bug and you can't pause again.
+        //With this the variable music paused is reset again to paused = false
+        music.currentTime = parseFloat(music.currentTime.toString());
     }
 
     function changedInput() {

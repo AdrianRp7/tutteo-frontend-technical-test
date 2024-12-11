@@ -16,8 +16,8 @@
     }>();
 
     function searchSongByName() {
-        if(value.value.length >= 1) 
-            emit("search", songsDb.filter(song => song.title.includes(value.value)))
+        if(value.value.trim().length >= 1) 
+            emit("search", songsDb.filter(song => song.title.toLowerCase().trim().includes(value.value.toLowerCase().trim())))
         else {
             emit("search",songsDb);
         }
